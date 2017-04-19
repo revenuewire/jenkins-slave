@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y \
     python-pip \
     ant \
     zip \
-    wget
+    wget \
+    locales
 
 RUN pip install awscli
 RUN pear channel-discover pear.phing.info && pear install -Z phing/phing
@@ -58,8 +59,7 @@ RUN apt-get -q update &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Set user jenkins to the image
-RUN useradd -m -d /home/jenkins -s /bin/sh jenkins &&\
-    echo "jenkins:jenkins" | chpasswd
+RUN useradd -m -d /home/jenkins -s /bin/sh jenkins && echo "jenkins:jenkins" | chpasswd
 RUN usermod -aG sudo jenkins
 RUN echo 'root:root' | chpasswd
 RUN sed -i 's/prohibit-password/yes/' /etc/ssh/sshd_config
