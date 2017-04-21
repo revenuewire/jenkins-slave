@@ -31,6 +31,8 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 RUN mkdir -p /usr/local/swagger && wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.2/swagger-codegen-cli-2.2.2.jar -O /usr/local/swagger/swagger-codegen-cli.jar
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
+RUN npm install -g swagger-cli webpack
+
 # Add locales after locale-gen as needed
 # Upgrade packages on image
 # Preparations for sshd
