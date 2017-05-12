@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
     wget \
     locales \
     python-software-properties
-RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - \
-    && sudo apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get install -y nodejs
 
 RUN pip install awscli
 RUN pear channel-discover pear.phing.info && pear install -Z phing/phing
