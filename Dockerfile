@@ -13,6 +13,12 @@ RUN apt-get update && apt-get install -y \
     php \
     php-curl \
     php-mysqlnd \
+    php-mcrypt \
+    php-cli \
+    php-xml \
+    php-simplexml \
+    php-mbstring \
+    php-intl \
     python-pip \
     ant \
     zip \
