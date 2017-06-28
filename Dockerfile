@@ -33,7 +33,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
      && php composer-setup.php --install-dir=/usr/local/bin \
      && php -r "unlink('composer-setup.php');" 
 
-RUN pip install awscli
+RUN pip install --upgrade pip \
+    && pip install awscli \
+    && pip install --upgrade awsebcli
+
 RUN pear channel-discover pear.phing.info && pear install -Z phing/phing
 RUN curl -L "https://github.com/docker/compose/releases/download/1.12.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 # install kubernetes control cli tool
