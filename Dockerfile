@@ -61,10 +61,10 @@ RUN locale-gen en_US.UTF-8 &&\
     sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd &&\
     mkdir -p /var/run/sshd
 
-RUN wget https://releases.rancher.com/compose/v0.8.6/rancher-compose-linux-amd64-v0.8.6.tar.gz -O /tmp/rancher-compose-linux-amd64-v0.8.6.tar.gz \
-        && tar xzvf /tmp/rancher-compose-linux-amd64-v0.8.6.tar.gz \
-        && cp rancher-compose-v0.8.6/rancher-compose /usr/local/bin/rancher-compose \
-        && rm -rf rancher-compose-v0.8.6
+RUN wget https://releases.rancher.com/compose/v0.12.5/rancher-compose-linux-amd64-v0.12.5.tar.gz -O /tmp/rancher-compose-linux-amd64-v0.12.5.tar.gz \
+        && tar xzvf /tmp/rancher-compose-linux-amd64-v0.12.5.tar.gz \
+        && cp rancher-compose-v0.12.5/rancher-compose /usr/local/bin/rancher-compose \
+        && rm -rf rancher-compose-v0.12.5
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
