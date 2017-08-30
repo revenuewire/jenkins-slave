@@ -40,6 +40,9 @@ RUN pip install --upgrade pip \
     && pip install awscli \
     && pip install --upgrade awsebcli
 
+RUN curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest \
+    && chmod +x /usr/local/bin/ecs-cli
+
 RUN pear channel-discover pear.phing.info && pear install -Z phing/phing
 RUN curl -L "https://github.com/docker/compose/releases/download/1.12.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 # install kubernetes control cli tool
