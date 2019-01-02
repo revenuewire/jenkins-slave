@@ -34,13 +34,12 @@ RUN curl https://github.com/luke-chisholm6/go-cli-templates/releases/download/0.
     chmod +x /usr/local/bin/go-cli-templates
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-     && php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-     && php composer-setup.php --install-dir=/usr/local/bin \
-     && php -r "unlink('composer-setup.php');" 
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php composer-setup.php \
+    && php -r "unlink('composer-setup.php');"
 
-RUN pip install --upgrade pip \
-    && pip install awscli \
-    && pip install --upgrade awsebcli
+RUN pip install --upgrade pip
+RUN pip install awscli
 
 RUN curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest \
     && chmod +x /usr/local/bin/ecs-cli
