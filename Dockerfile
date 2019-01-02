@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     php-simplexml \
     php-mbstring \
     php-intl \
+    php-ssh2 \
     python-pip \
     ant \
     zip \
