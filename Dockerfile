@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     php-mcrypt \
     php-cli \
     php-xml \
+    php-bcmath \
     php-simplexml \
     php-mbstring \
     php-intl \
