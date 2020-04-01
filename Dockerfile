@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
     git \
     groff \
     mysql-client \
-    npm \
     php-pear \
     php \
     php-curl \
@@ -28,14 +27,16 @@ RUN apt-get update && apt-get install -y \
     locales \
     python-software-properties \
     jq
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+
+#install nodejs and npm from the 12.x branch currently supported until Oct 2021
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y nodejs
 
 RUN curl https://github.com/luke-chisholm6/go-cli-templates/releases/download/0.1.0/go-cli-templates_linux_amd64 -Lo /usr/local/bin/go-cli-templates && \
     chmod +x /usr/local/bin/go-cli-templates
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('sha384', 'composer-setup.php') === '48e3236262b34d30969dca3c37281b3b4bbe3221bda826ac6a9a62d6444cdb0dcd0615698a5cbe587c3f0fe57a54d8f5') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php --install-dir=/usr/local/bin \
     && php -r "unlink('composer-setup.php');"
 
@@ -48,7 +49,7 @@ RUN curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-c
 RUN pear channel-discover pear.phing.info && pear install -Z phing/phing
 RUN curl -L "https://github.com/docker/compose/releases/download/1.12.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 
-RUN mkdir -p /usr/local/swagger && wget http://central.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.2/swagger-codegen-cli-2.2.2.jar -O /usr/local/swagger/swagger-codegen-cli.jar
+RUN mkdir -p /usr/local/swagger && wget https://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.2/swagger-codegen-cli-2.2.2.jar -O /usr/local/swagger/swagger-codegen-cli.jar
 
 #RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm install -g swagger-cli webpack
