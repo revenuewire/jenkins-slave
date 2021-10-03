@@ -1,9 +1,9 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-FROM ubuntu:xenial
-MAINTAINER Scott Wang <swang@revenuewire.com>
+FROM ubuntu:bionic
+MAINTAINER Moresby Media Development Team <dev@moresbymedia.com>
 
 # Install stuff we needed.
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     curl \
     git \
     groff \
@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y \
     php \
     php-curl \
     php-mysqlnd \
-    php-mcrypt \
     php-cli \
     php-xml \
     php-bcmath \
@@ -25,7 +24,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     wget \
     locales \
-    python-software-properties \
+    software-properties-common \
     jq
 
 #install nodejs and npm from the 12.x branch currently supported until Oct 2021
@@ -36,7 +35,7 @@ RUN curl https://github.com/luke-chisholm6/go-cli-templates/releases/download/0.
     chmod +x /usr/local/bin/go-cli-templates
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
     && php composer-setup.php --install-dir=/usr/local/bin \
     && php -r "unlink('composer-setup.php');"
 
@@ -73,7 +72,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install JDK 7 (latest edition)
 RUN apt-get -q update &&\
-    DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew"  --no-install-recommends openjdk-9-jre-headless &&\
+    DEBIAN_FRONTEND="noninteractive" apt-get -q install -y -o Dpkg::Options::="--force-confnew"  --no-install-recommends openjdk-11-jre-headless &&\
     apt-get -q clean -y && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Set user jenkins to the image
@@ -81,6 +80,7 @@ RUN useradd -m -d /home/jenkins -s /bin/sh jenkins && echo "jenkins:jenkins" | c
 RUN usermod -aG sudo jenkins
 RUN echo 'root:root' | chpasswd
 RUN sed -i 's/prohibit-password/yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PermitRootLogin/PermitRootLogin/' /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
