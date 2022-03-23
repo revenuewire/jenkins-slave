@@ -1,5 +1,5 @@
 # This Dockerfile is used to build an image containing basic stuff to be used as a Jenkins slave build node.
-FROM ubuntu:bionic
+FROM ubuntu:focal
 MAINTAINER Moresby Media Development Team <dev@moresbymedia.com>
 
 # Install stuff we needed.
@@ -19,7 +19,7 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     php-mbstring \
     php-intl \
     php-ssh2 \
-    python-pip \
+    python3-pip \
     ant \
     zip \
     wget \
@@ -27,8 +27,8 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y \
     software-properties-common \
     jq
 
-#install nodejs and npm from the 12.x branch currently supported until Oct 2021
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+#install nodejs and npm from the 16.x branch currently supported until Oct 2023
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs
 
 RUN curl https://github.com/luke-chisholm6/go-cli-templates/releases/download/0.1.0/go-cli-templates_linux_amd64 -Lo /usr/local/bin/go-cli-templates && \
@@ -46,7 +46,7 @@ RUN curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-c
     && chmod +x /usr/local/bin/ecs-cli
 
 RUN pear channel-discover pear.phing.info && pear install -Z phing/phing
-RUN curl -L "https://github.com/docker/compose/releases/download/1.12.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
+RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
 
 RUN mkdir -p /usr/local/swagger && wget https://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.2/swagger-codegen-cli-2.2.2.jar -O /usr/local/swagger/swagger-codegen-cli.jar
 
